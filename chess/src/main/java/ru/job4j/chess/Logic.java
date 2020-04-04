@@ -25,13 +25,27 @@ public class Logic {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
+            Cell[] steps = new Cell[0];
+            try {
+                steps = this.figures[index].way(source, dest);
+            } catch (IllegalStateException e) {
+                return false;
+            }
             if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+                if (this.isWayClear(steps)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
             }
         }
         return rst;
+    }
+
+    public boolean isWayClear(Cell[] way) {
+        for (int i = 1; i < way.length - 1; i++) {
+            if (this.findBy(way[i]) != -1) return false;
+        }
+        return true;
     }
 
     public void clean() {
