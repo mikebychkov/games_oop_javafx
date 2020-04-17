@@ -22,6 +22,9 @@ public class TicTacToe extends Application {
     private final Figure3T[][] cells = new Figure3T[size][size];
     private final Logic3T logic = new Logic3T(cells);
 
+    private boolean turnX = true;
+    private boolean turnO = true;
+
     private Figure3T buildRectangle(int x, int y, int size) {
         Figure3T rect = new Figure3T();
         rect.setX(x * size);
@@ -86,6 +89,7 @@ public class TicTacToe extends Application {
         return event -> {
             Figure3T rect = (Figure3T) event.getTarget();
             if (this.checkState()) {
+                /*
                 if (event.getButton() == MouseButton.PRIMARY) {
                     rect.take(true);
                     panel.getChildren().add(
@@ -96,6 +100,30 @@ public class TicTacToe extends Application {
                     panel.getChildren().add(
                             this.buildMarkO(rect.getX(), rect.getY(), 50)
                     );
+                }
+                */
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    if (this.turnX) {
+                        rect.take(true);
+                        panel.getChildren().add(
+                                this.buildMarkX(rect.getX(), rect.getY(), 50)
+                        );
+                        this.turnX = false;
+                        this.turnO = true;
+                    } else {
+                        this.showAlert("Сейчас очередь Ноликов!");
+                    }
+                } else {
+                    if (this.turnO) {
+                        rect.take(false);
+                        panel.getChildren().add(
+                                this.buildMarkO(rect.getX(), rect.getY(), 50)
+                        );
+                        this.turnX = true;
+                        this.turnO = false;
+                    } else {
+                        this.showAlert("Сейчас очередь Крестиков!");
+                    }
                 }
                 this.checkWinner();
                 this.checkState();
@@ -135,5 +163,7 @@ public class TicTacToe extends Application {
         stage.setTitle(JOB4J);
         stage.setResizable(false);
         stage.show();
+        this.turnX = true;
+        this.turnO = true;
     }
 }

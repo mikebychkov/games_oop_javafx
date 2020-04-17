@@ -24,7 +24,7 @@ public class BishopBlack implements Figure {
                     String.format("Could not way by diagonal from %s to %s", source, dest)
             );
         }
-        Cell[] rsl = new Cell[100];
+        Cell[] rsl = new Cell[10];
         int rslLen = 0;
         int wegX = source.x;
         int wegY = source.y;
